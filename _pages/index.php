@@ -13,11 +13,6 @@
  </header>
 
  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6">
-
-
-
-
-
      <section class="my-5 py-5">
 
          <div class="container mt-sm-5 mt-3">
