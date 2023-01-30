@@ -42,12 +42,13 @@ function register($conn, $email, $password, $username)
     $password = sha256($password);
     $timestamp = getTimestamp();
     try {
-        $sql = "INSERT INTO users (email, password_sha256, username, created_at) VALUES (:email, :password, :username, :created_at)";
+        $sql = "INSERT INTO users (email, password_sha256, username, created_at, ip) VALUES (:email, :password, :username, :created_at, :ip)";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->bindParam(':password', $password, PDO::PARAM_STR);
         $stmt->bindParam(':username', $username, PDO::PARAM_STR);
         $stmt->bindParam(':created_at', $timestamp);
+        $stmt->bindParam(':ip', getrealip(), PDO::PARAM_STR);
         $stmt->execute();
     } catch (PDOException $e) {
         echo $e->getMessage();
