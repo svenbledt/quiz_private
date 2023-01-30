@@ -17,7 +17,6 @@ if (isset($_POST['submit'])) {
   if ($user) {
     if (sha256($_POST['password']) == $user['password_sha256'] && $_POST['email'] == $user['email']) {
       login($conn, $_POST['email'], $_POST['password']);
-      updateLastLogin($conn, $_POST['email']);
       $_SESSION['LOGGEDIN'] = true;
       $_SESSION['EMAIL'] = $user['email'];
       $_SESSION['USERNAME'] = $user['username'];

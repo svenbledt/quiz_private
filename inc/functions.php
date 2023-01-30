@@ -1,4 +1,8 @@
 <?php
+// get User Data
+if (isset($_SESSION['EMAIL'])) {
+    $user = getUser($conn, $_SESSION['EMAIL']);
+}
 // Session Controller
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800) && !isset($_SESSION['REMEMBER'])) {
     // last request was more than 30 minutes ago
@@ -64,6 +68,14 @@ function login($conn, $email, $password)
     } catch (PDOException $e) {
         echo $e->getMessage();
     }
+    try {
+        $sql = "UPDATE users SET last_login, ip = :last_login, :ip WHERE email = :email";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':last_login', getTimestamp(), PDO::PARAM_STR);
+        $stmt->bindParam(':ip', getrealip(), PDO::PARAM_STR);
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
 }
 
 // logout
@@ -124,6 +136,24 @@ function userValidate($username)
     }
 }
 
-if (isset($_SESSION['EMAIL'])) {
-    $user = getUser($conn, $_SESSION['EMAIL']);
+function getrealip()
+{
+    if (isset($_SERVER)) {
+        if (isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+            $realip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+        } elseif (isset($_SERVER["HTTP_CLIENT_IP"])) {
+            $realip = $_SERVER["HTTP_CLIENT_IP"];
+        } else {
+            $realip = $_SERVER["REMOTE_ADDR"];
+        }
+    } else {
+        if (getenv("HTTP_X_FORWARDED_FOR")) {
+            $realip = getenv("HTTP_X_FORWARDED_FOR");
+        } elseif (getenv("HTTP_CLIENT_IP")) {
+            $realip = getenv("HTTP_CLIENT_IP");
+        } else {
+            $realip = getenv("REMOTE_ADDR");
+        }
+    }
+    return $realip;
 }
