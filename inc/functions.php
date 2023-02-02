@@ -69,14 +69,17 @@ function login($conn, $email, $password)
     } catch (PDOException $e) {
         echo $e->getMessage();
     }
-    try {
-        $sql = "UPDATE users SET last_login, ip = :last_login, :ip WHERE email = :email";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':last_login', getTimestamp(), PDO::PARAM_STR);
-        $stmt->bindParam(':ip', getrealip(), PDO::PARAM_STR);
-    } catch (PDOException $e) {
-        echo $e->getMessage();
-    }
+}
+
+// update last login
+function updateUser($conn, $email)
+{
+    $sql = "UPDATE users SET last_login = :last_login, ip = :ip WHERE email = :email";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':last_login', getTimestamp(), PDO::PARAM_STR);
+    $stmt->bindParam(':ip', getrealip(), PDO::PARAM_STR);
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt->execute();
 }
 
 // logout

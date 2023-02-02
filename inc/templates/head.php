@@ -1,11 +1,84 @@
 <?php
+// check if reset button is pressed
+if (isset($_GET['newtopic'])) {
+    unset($_SESSION['topic']);
+    unset($_SESSION['current_question']);
+    header('Location: index.php?page=index');
+}
+// check if back button is pressed
+if (isset($_POST['back'])) {
+    if ($_SESSION['current_question'] <= 0) {
+        $_SESSION['current_question'] = 0;
+        header("Location: index.php?page=index");
+    } else {
+        $_SESSION['current_question'] = $_SESSION['current_question'] - 1;
+        header("Location: index.php?page=index");
+    }
+}
+
+// check if logout button is pressed
 if (isset($_GET['logout']) && $_GET['logout'] == 'true') {
     logout();
     header('Location: index.php?page=index');
 }
-print_r($_SESSION);
 
+// set topic
+if (isset($_POST['topic'])) {
+    $_SESSION['topic'] = $_POST['topic'];
+    header('Location: index.php?page=index');
+}
+// get all information for current topic
+if (isset($_SESSION['topic'])) {
+    $qsInfo = $conn->query("SELECT * FROM questions WHERE topic = '" . $_SESSION['topic'] . "'");
+    $qsInfo = $qsInfo->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// get current question
+    if (!isset($_SESSION['current_question'])) {
+        $_SESSION['current_question'] = 0;
+    }
+    
+    $current_question = $qsInfo[$_SESSION['current_question']];
+
+
+// check if form is submitted
+if (isset($_POST['next'])) {
+
+    // insert answer into database
+    $timest = getTimestamp();
+    $find = "SELECT * FROM answers WHERE user_id = :user_id AND question_id = :question_id";
+    $stmt = $conn->prepare($find);
+    $stmt->bindParam(':user_id', $_SESSION['ID']);
+    $stmt->bindParam(':question_id', $current_question['id']);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($result) {
+        $sql = "UPDATE answers SET answer = :answer, correct = :correct, timest = :timest WHERE user_id = :user_id AND question_id = :question_id";
+    } else {
+        $sql = "INSERT INTO answers (user_id, question_id, answer, correct, timest) VALUES (:user_id, :question_id, :answer, :correct, :timest)";
+    }
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':user_id', $_SESSION['ID']);
+    $stmt->bindParam(':question_id', $current_question['id']);
+    $stmt->bindParam(':answer', $_POST['answer']);
+    $stmt->bindParam(':correct', $current_question['correct']);
+    $stmt->bindParam(':timest', $timest);
+    $stmt->execute();
+    // increment current question index
+    $_SESSION['current_question'] = $_SESSION['current_question'] + 1;
+
+    // check if all questions have been answered
+    if ($_SESSION['current_question'] >= count($qsInfo)) {
+        // reset current question index
+        $result = "All questions answered, show results here";
+        unset($_SESSION['current_question']);
+        unset($_SESSION['topic']);
+    }
+    header("Location: index.php?page=index");
+}
+print_r($_SESSION);
 ?>
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -76,7 +149,7 @@ print_r($_SESSION);
                                             <a href="index.php?page=sign-in" class="dropdown-item border-radius-md">
                                                 <span>Sign In</span>
                                             </a>
-                                            
+
                                             <a href="index.php?page=register" class="dropdown-item border-radius-md">
                                                 <span>
                                                     Register
@@ -101,7 +174,7 @@ print_r($_SESSION);
                                             </a>
                                             <a href="index.php?page=register" class="dropdown-item border-radius-md">
                                                 <span>
-                                                   Register
+                                                    Register
                                                 </span>
                                             </a>
 
@@ -118,13 +191,13 @@ print_r($_SESSION);
                                 </li>
                                 <li class="nav-item my-auto ms-3 ms-lg-0">
 
-                                        <?php
-                                        if (isset($_SESSION['LOGGEDIN']) && $_SESSION['LOGGEDIN'] == true) {
-                                            echo '<a href="index.php?page=index&logout=true" class="btn btn-sm  bg-gradient-primary  mb-0 me-1 mt-2 mt-md-0"><i class="fas fa-sign-out-alt"></i>'.$user['username'].'</a>';
-                                        } else {
-                                            echo '<a href="index.php?page=sign-in" class="btn btn-sm  bg-gradient-primary  mb-0 me-1 mt-2 mt-md-0"><i class="fas fa-sign-in-alt"></i>Login</a>';
-                                        };
-                                        ?>
+                                    <?php
+                                    if (isset($_SESSION['LOGGEDIN']) && $_SESSION['LOGGEDIN'] == true) {
+                                        echo '<a href="index.php?page=index&logout=true" class="btn btn-sm  bg-gradient-primary  mb-0 me-1 mt-2 mt-md-0"><i class="fas fa-sign-out-alt"></i>' . $user['username'] . '</a>';
+                                    } else {
+                                        echo '<a href="index.php?page=sign-in" class="btn btn-sm  bg-gradient-primary  mb-0 me-1 mt-2 mt-md-0"><i class="fas fa-sign-in-alt"></i>Login</a>';
+                                    };
+                                    ?>
 
                                 </li>
                             </ul>

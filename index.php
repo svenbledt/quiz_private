@@ -1,7 +1,8 @@
 <?php
-error_reporting(E_ALL);
+error_reporting(E_ALL); 
 session_start();
 header('Content-Type: text/html; charset=UTF-8');
+
 require('inc/include.php');
 require('inc/templates/head.php');
 
