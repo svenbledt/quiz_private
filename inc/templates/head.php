@@ -73,6 +73,7 @@ if (isset($_POST['next'])) {
         $result = "All questions answered, show results here";
         unset($_SESSION['current_question']);
         unset($_SESSION['topic']);
+        header("Location: index.php?page=index");
     }
     header("Location: index.php?page=index");
 }
