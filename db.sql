@@ -22,37 +22,20 @@ USE `db`;
 -- Exportiere Struktur von Tabelle db.answers
 CREATE TABLE IF NOT EXISTS `answers` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
   `question_id` int NOT NULL,
+  `is_correct` enum('1','0') COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
   `answer` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `correct` tinyint NOT NULL DEFAULT '0',
-  `timest` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Quiz Log des Opportunity quizes';
+  PRIMARY KEY (`id`),
+  KEY `foreign_key` (`question_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Die Antworten nach Fragen Sortiert';
 
 -- Exportiere Daten aus Tabelle db.answers: ~21 rows (ungefähr)
-REPLACE INTO `answers` (`id`, `user_id`, `question_id`, `answer`, `correct`, `timest`) VALUES
-	(1, 1, 1, '3', 3, '1675163623'),
-	(2, 1, 7, '1', 1, '1675163627'),
-	(3, 1, 8, '4', 4, '1675163632'),
-	(4, 1, 9, '1', 1, '1675163638'),
-	(5, 1, 10, '1', 4, '1675163645'),
-	(6, 1, 11, '3', 3, '1675163655'),
-	(7, 1, 2, '1', 1, '1675163997'),
-	(8, 1, 3, '1', 3, '1675164000'),
-	(9, 1, 4, '1', 3, '1675164004'),
-	(10, 1, 5, '1', 2, '1675164007'),
-	(11, 1, 6, '1', 1, '1675164011'),
-	(12, 1, 12, '1', 1, '1675164014'),
-	(13, 1, 13, '1', 1, '1675164018'),
-	(14, 1, 14, '1', 1, '1675164022'),
-	(15, 1, 15, '1', 5, '1675164025'),
-	(16, 1, 16, '1', 3, '1675164028'),
-	(17, 1, 17, '4', 1, '1675164238'),
-	(18, 1, 18, '1', 1, '1675164244'),
-	(19, 1, 19, '3', 1, '1675164249'),
-	(20, 1, 20, '1', 1, '1675164255'),
-	(21, 1, 21, '1', 1, '1675164259');
+REPLACE INTO `answers` (`id`, `question_id`, `is_correct`, `answer`) VALUES
+	(1, 1, '0', 'Europe'),
+	(2, 1, '0', 'Asia'),
+	(3, 1, '1', 'South America'),
+	(4, 1, '0', 'Australia'),
+	(5, 1, '0', 'North America');
 
 -- Exportiere Struktur von Tabelle db.questions
 CREATE TABLE IF NOT EXISTS `questions` (
@@ -100,6 +83,41 @@ REPLACE INTO `questions` (`id`, `topic`, `question_text`, `answer-1`, `answer-2`
 	(28, 'movies', 'Which movie won the Best Picture Oscar in 2020?', '1917', 'Parasite', 'Joker', 'The Irishman', 'Once Upon a Time in Hollywood', '2'),
 	(29, 'movies', 'Who directed the movie "The Shawshank Redemption"?', 'Frank Darabont', 'Martin Scorsese', 'Quentin Tarantino', 'Steven Spielberg', 'David Fincher', '1'),
 	(30, 'movies', 'What is the real name of the actor who played Indiana Jones?', 'Harrison Ford', 'Tom Hanks', 'Matt Damon', 'Brad Pitt', 'George Clooney', '1');
+
+-- Exportiere Struktur von Tabelle db.summary
+CREATE TABLE IF NOT EXISTS `summary` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `question_id` int NOT NULL,
+  `answer` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `correct` tinyint NOT NULL DEFAULT '0',
+  `timest` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Quiz Log des Opportunity quizes';
+
+-- Exportiere Daten aus Tabelle db.summary: ~21 rows (ungefähr)
+REPLACE INTO `summary` (`id`, `user_id`, `question_id`, `answer`, `correct`, `timest`) VALUES
+	(1, 1, 1, '3', 3, '1675163623'),
+	(2, 1, 7, '1', 1, '1675163627'),
+	(3, 1, 8, '4', 4, '1675163632'),
+	(4, 1, 9, '1', 1, '1675163638'),
+	(5, 1, 10, '1', 4, '1675163645'),
+	(6, 1, 11, '3', 3, '1675163655'),
+	(7, 1, 2, '1', 1, '1675163997'),
+	(8, 1, 3, '1', 3, '1675164000'),
+	(9, 1, 4, '1', 3, '1675164004'),
+	(10, 1, 5, '1', 2, '1675164007'),
+	(11, 1, 6, '1', 1, '1675164011'),
+	(12, 1, 12, '1', 1, '1675164014'),
+	(13, 1, 13, '1', 1, '1675164018'),
+	(14, 1, 14, '1', 1, '1675164022'),
+	(15, 1, 15, '1', 5, '1675164025'),
+	(16, 1, 16, '1', 3, '1675164028'),
+	(17, 1, 17, '4', 1, '1675164238'),
+	(18, 1, 18, '1', 1, '1675164244'),
+	(19, 1, 19, '3', 1, '1675164249'),
+	(20, 1, 20, '1', 1, '1675164255'),
+	(21, 1, 21, '1', 1, '1675164259');
 
 -- Exportiere Struktur von Tabelle db.users
 CREATE TABLE IF NOT EXISTS `users` (
