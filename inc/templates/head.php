@@ -34,11 +34,12 @@ if (isset($_SESSION['topic'])) {
 }
 
 // get current question
-    if (!isset($_SESSION['current_question'])) {
-        $_SESSION['current_question'] = 0;
-    }
-    
-    $current_question = $qsInfo[$_SESSION['current_question']];
+if (!isset($_SESSION['current_question'])) {
+    $_SESSION['current_question'] = 0;
+}
+
+// set current question to variable for easier access later
+$current_question = $qsInfo[$_SESSION['current_question']];
 
 
 // check if form is submitted
@@ -77,7 +78,6 @@ if (isset($_POST['next'])) {
     }
     header("Location: index.php?page=index");
 }
-print_r($_SESSION);
 ?>
 
 <head>
