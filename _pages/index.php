@@ -102,29 +102,15 @@
                                                         if (isset($result)) {
                                                             echo '<p class="lead text-dark pt-1 mb-0">' . $result . '</p>';
                                                         } else if (isset($_SESSION['current_question'])) {
-                                                            echo '<p class="lead text-dark pt-1 mb-0">' . $current_question['question_text'] . '</p>';
+                                                            echo '<p class="lead text-dark pt-1 mb-0">' . $current_question['question'] . '</p>';
                                                             echo '<form method="post">';
                                                             echo '<div class="row text-center py-2 mt-3"><div class="col-3 mx-auto text-start">';
+                                                            for ($i = 0; $i < count($answers); $i++) {
                                                             echo '<div class="form-check">';
-                                                            echo '<input class="form-check-input" type="radio" name="answer" value="1" id="flexRadioDefault1" required>';
-                                                            echo '<label class="form-check-label" for="flexRadioDefault1">' . $current_question['answer-1'] . '</label>';
+                                                            echo '<input class="form-check-input" type="radio" name="answer" value="'.($i+1).'" id="flexRadioDefault'.($i+1).'" required>';
+                                                            echo '<label class="form-check-label" for="flexRadioDefault'.($i+1).'">' . $answers[$i]['answer'] . '</label>';
                                                             echo '</div>';
-                                                            echo '<div class="form-check">';
-                                                            echo '<input class="form-check-input" type="radio" name="answer" value="2" id="flexRadioDefault2" required>';
-                                                            echo '<label class="form-check-label" for="flexRadioDefault2">' . $current_question['answer-2'] . '</label>';
-                                                            echo '</div>';
-                                                            echo '<div class="form-check">';
-                                                            echo '<input class="form-check-input" type="radio" name="answer" value="3" id="flexRadioDefault3" required>';
-                                                            echo '<label class="form-check-label" for="flexRadioDefault3">' . $current_question['answer-3'] . '</label>';
-                                                            echo '</div>';
-                                                            echo '<div class="form-check">';
-                                                            echo '<input class="form-check-input" type="radio" name="answer" value="4" id="flexRadioDefault4" required>';
-                                                            echo '<label class="form-check-label" for="flexRadioDefault4">' . $current_question['answer-4'] . '</label>';
-                                                            echo '</div>';
-                                                            echo '<div class="form-check">';
-                                                            echo '<input class="form-check-input" type="radio" name="answer" value="5" id="flexRadioDefault5" required>';
-                                                            echo '<label class="form-check-label" for="flexRadioDefault5">' . $current_question['answer-5'] . '</label>';
-                                                            echo '</div>';
+                                                            }
                                                             echo '<button type="submit" name="next" class="btn btn-primary">Next Question</button>';
                                                             echo '<button type="submit" name="back" class="btn btn-primary">Last Question</button>';
                                                             echo '</div>';

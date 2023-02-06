@@ -31,6 +31,8 @@ if (isset($_POST['topic'])) {
 if (isset($_SESSION['topic'])) {
     $qsInfo = $conn->query("SELECT * FROM questions WHERE topic = '" . $_SESSION['topic'] . "'");
     $qsInfo = $qsInfo->fetchAll(PDO::FETCH_ASSOC);
+    $qs_answers = $conn->query("SELECT * FROM answers WHERE question_id = '" . $qsInfo[$_SESSION['current_question']]['id'] . "'");
+    $answers = $qs_answers->fetchAll(PDO::FETCH_ASSOC);
 }
 
 // get current question
