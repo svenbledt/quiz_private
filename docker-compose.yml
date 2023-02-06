@@ -23,7 +23,7 @@ services:
       DB_NAME: db
       DB_HOST: mysql
       DB_USER: sven
-      DB_PASSWORD: sVenjbt946795
+      DB_PASSWORD: opportunity
 
     depends_on:
       mysql:
