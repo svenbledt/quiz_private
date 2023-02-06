@@ -47,16 +47,16 @@ if (isset($_POST['next'])) {
 
     // insert answer into database
     $timest = getTimestamp();
-    $find = "SELECT * FROM answers WHERE user_id = :user_id AND question_id = :question_id";
+    $find = "SELECT * FROM summary WHERE user_id = :user_id AND question_id = :question_id";
     $stmt = $conn->prepare($find);
     $stmt->bindParam(':user_id', $_SESSION['ID']);
     $stmt->bindParam(':question_id', $current_question['id']);
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($result) {
-        $sql = "UPDATE answers SET answer = :answer, correct = :correct, timest = :timest WHERE user_id = :user_id AND question_id = :question_id";
+        $sql = "UPDATE summary SET answer = :answer, correct = :correct, timest = :timest WHERE user_id = :user_id AND question_id = :question_id";
     } else {
-        $sql = "INSERT INTO answers (user_id, question_id, answer, correct, timest) VALUES (:user_id, :question_id, :answer, :correct, :timest)";
+        $sql = "INSERT INTO summary (user_id, question_id, answer, correct, timest) VALUES (:user_id, :question_id, :answer, :correct, :timest)";
     }
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':user_id', $_SESSION['ID']);

@@ -35,8 +35,8 @@ services:
     environment:
       MYSQL_DATABASE: db
       MYSQL_USER: sven
-      MYSQL_PASSWORD: sVenjbt946795
-      MYSQL_ROOT_PASSWORD: sVenjbt946795
+      MYSQL_PASSWORD: opportunity
+      MYSQL_ROOT_PASSWORD: opportunity
       MYSQL_PORT: 3336
     container_name: mysql
     ports:
