@@ -49,6 +49,14 @@ if (isset($_POST['next'])) {
 
     // insert answer into database
     $timest = getTimestamp();
+    $correct = "SELECT correct FROM answers WHERE question_id = '" . $current_question['id'] . "' AND answer = '" . $_POST['answer'] . "'";
+    $correct = $conn->query($correct);
+
+    if ($correct == 1) {
+        $correct = 1;
+    } else {
+        $correct = 0;
+    }
     $find = "SELECT * FROM summary WHERE user_id = :user_id AND question_id = :question_id";
     $stmt = $conn->prepare($find);
     $stmt->bindParam(':user_id', $_SESSION['ID']);
@@ -64,7 +72,7 @@ if (isset($_POST['next'])) {
     $stmt->bindParam(':user_id', $_SESSION['ID']);
     $stmt->bindParam(':question_id', $current_question['id']);
     $stmt->bindParam(':answer', $_POST['answer']);
-    $stmt->bindParam(':correct', $current_question['correct']);
+    $stmt->bindParam(':correct', $correct);
     $stmt->bindParam(':timest', $timest);
     $stmt->execute();
     // increment current question index

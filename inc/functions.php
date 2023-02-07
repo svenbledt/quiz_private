@@ -99,6 +99,7 @@ function updateLastLogin($conn, $email)
     $stmt->execute();
 }
 
+// get user information
 function getUser($conn, $email)
 {
     $sql = "SELECT * FROM users WHERE email = :email";
@@ -130,6 +131,7 @@ function pwdValidate($password)
     }
 }
 
+
 // validate username
 function userValidate($username)
 {
@@ -140,6 +142,7 @@ function userValidate($username)
     }
 }
 
+// get real ip address of site visitor
 function getrealip()
 {
     if (isset($_SERVER)) {

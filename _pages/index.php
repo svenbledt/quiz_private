@@ -59,7 +59,7 @@
                                          <div class="container border-bottom">
                                              <div class="row justify-space-between py-2">
                                                  <div class="col-lg-3 me-auto">
-                                                     <p class="lead text-dark pt-1 mb-0"><?php if(!isset($result)) { echo'Choose your topic'; } else { echo $result;};?></p>
+                                                     <p class="lead text-dark pt-1 mb-0"><?php if (!isset($result)) { echo 'Choose your topic'; } else { echo $result; }; ?></p>
                                                  </div>
                                              </div>
                                          </div>
@@ -106,10 +106,17 @@
                                                             echo '<form method="post">';
                                                             echo '<div class="row text-center py-2 mt-3"><div class="col-3 mx-auto text-start">';
                                                             for ($i = 0; $i < count($answers); $i++) {
-                                                            echo '<div class="form-check">';
-                                                            echo '<input class="form-check-input" type="radio" name="answer" value="'.($i+1).'" id="flexRadioDefault'.($i+1).'" required>';
-                                                            echo '<label class="form-check-label" for="flexRadioDefault'.($i+1).'">' . $answers[$i]['answer'] . '</label>';
-                                                            echo '</div>';
+                                                                if ($current_question['type'] == 'single') {
+                                                                    echo '<div class="form-check">';
+                                                                    echo '<input class="form-check-input" type="radio" name="answer" value="' . ($i + 1) . '" id="flexRadioDefault' . ($i + 1) . '" required>';
+                                                                    echo '<label class="form-check-label" for="flexRadioDefault' . ($i + 1) . '">' . $answers[$i]['answer'] . '</label>';
+                                                                    echo '</div>';
+                                                                } else if ($current_question['type'] == 'multiple') {
+                                                                    echo '<div class="form-check">';
+                                                                    echo '<input class="form-check-input" type="checkbox" name="answer" value="' . ($i + 1) . '" id="flexCheckDefault' . ($i + 1) . '">';
+                                                                    echo '<label class="form-check-label" for="flexCheckDefault' . ($i + 1) . '">' . $answers[$i]['answer'] . '</label>';
+                                                                    echo '</div>';
+                                                                }
                                                             }
                                                             echo '<button type="submit" name="next" class="btn btn-primary">Next Question</button>';
                                                             echo '<button type="submit" name="back" class="btn btn-primary">Last Question</button>';
