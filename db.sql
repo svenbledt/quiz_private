@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `answers` (
   KEY `foreign_key` (`question_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Die Antworten nach Fragen Sortiert';
 
--- Exportiere Daten aus Tabelle db.answers: ~5 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db.answers: ~150 rows (ungefähr)
 REPLACE INTO `answers` (`id`, `question_id`, `is_correct`, `answer`) VALUES
 	(1, 1, '0', 'Europe'),
 	(2, 1, '0', 'Asia'),
@@ -275,7 +275,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 -- Exportiere Daten aus Tabelle db.users: ~1 rows (ungefähr)
 REPLACE INTO `users` (`id`, `username`, `password_sha256`, `email`, `created_at`, `last_login`, `ip`, `score`) VALUES
-	(1, 'Trojan', 'dd67797d20b32f6df658be198b2fcd9d4e78fc6dc6861f798a10cc9b657c5417', 'sven.bledt@gmail.com', '1674738529', '1675689009', '172.22.0.1', 0);
+	(1, 'Trojan', 'dd67797d20b32f6df658be198b2fcd9d4e78fc6dc6861f798a10cc9b657c5417', 'sven.bledt@gmail.com', '1674738529', '1675842125', '172.22.0.1', 0);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
