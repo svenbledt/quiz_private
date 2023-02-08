@@ -5,11 +5,10 @@
     $topics = $topics->fetchAll(PDO::FETCH_ASSOC);
     $topics = array_unique($topics, SORT_REGULAR);
 
+    // if score is not defined set it to 0
     if (!isset($_SESSION['score'])) {
         $_SESSION['score'] = 0;
     }
-    // set default Message
-    // set topic session
 
     // initialize current question index if not set
     if (!isset($_SESSION['current_question'])) {
@@ -106,12 +105,12 @@
                                                             echo '<form method="post">';
                                                             echo '<div class="row text-center py-2 mt-3"><div class="col-3 mx-auto text-start">';
                                                             for ($i = 0; $i < count($answers); $i++) {
-                                                                if ($current_question['type'] == 'single') {
+                                                                if ($current_question['type'] == 'SINGLE') {
                                                                     echo '<div class="form-check">';
                                                                     echo '<input class="form-check-input" type="radio" name="answer" value="' . ($i + 1) . '" id="flexRadioDefault' . ($i + 1) . '" required>';
                                                                     echo '<label class="form-check-label" for="flexRadioDefault' . ($i + 1) . '">' . $answers[$i]['answer'] . '</label>';
                                                                     echo '</div>';
-                                                                } else if ($current_question['type'] == 'multiple') {
+                                                                } else if ($current_question['type'] == 'MULTIPLE') {
                                                                     echo '<div class="form-check">';
                                                                     echo '<input class="form-check-input" type="checkbox" name="answer" value="' . ($i + 1) . '" id="flexCheckDefault' . ($i + 1) . '">';
                                                                     echo '<label class="form-check-label" for="flexCheckDefault' . ($i + 1) . '">' . $answers[$i]['answer'] . '</label>';
