@@ -50,7 +50,21 @@ services:
       test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
       interval: 5s
       retries: 10
- 
+
+  # phpmyadmin Service
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: sven
+      PMA_PASSWORD: opportunity
+    ports:
+      - 8080:80
+    depends_on:
+      - mysql
+
 volumes:
   db_data:
     driver: local
